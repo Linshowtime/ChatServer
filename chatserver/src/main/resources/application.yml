@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+    datasource:
+        name: chatdb
+        url: jdbc:mysql://127.0.0.1:3300/chatdb
+        username: root
+        password: ENC(LLZ5FInAJpEGXTJ6a1jV66iIK5STFEX4)
+        driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:com.nt.mapper/*.xml
+  type-aliases-package: com.nt.entity
+
+  logging:
+  level:
+     com.nt.mapper : debug
+jasypt:
+  encryptor:
+    password: showtime

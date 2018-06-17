@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nt.mapper.CategoryMemberMapper">
+  <resultMap id="BaseResultMap" type="com.nt.entity.CategoryMember">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, category_id, owner_id, member_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectMember" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category_member
+    where owner_id = #{ownerid} and member_id=#{memberid}
+  </select>
+  <select id="selectCategoryMembers" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category_member
+    where owner_id = #{ownerid} and category_id=#{categoryid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from friend_category_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nt.entity.CategoryMember">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into friend_category_member (category_id, owner_id, member_id
+      )
+    values (#{categoryId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nt.entity.CategoryMember">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into friend_category_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nt.entity.CategoryMember">
+    update friend_category_member
+    <set>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nt.entity.CategoryMember">
+    update friend_category_member
+    set category_id = #{categoryId,jdbcType=INTEGER},
+     owner_id = #{ownerId,jdbcType=INTEGER},
+     member_id = #{memberId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteMember">
+  delete from friend_category_member
+  where owner_id=#{ownerid} and member_id=#{memberid}
+  </delete>
+   <delete id="deleteCategoryMembers">
+  delete from friend_category_member
+  where category_id=#{categoryid} and owner_id=#{ownerid}
+  </delete>
+</mapper>

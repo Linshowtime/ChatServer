@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nt.mapper.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.nt.entity.Category">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, owner_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectCategory"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category
+    where owner_id = #{ownerid} and name=#{name}
+  </select>
+  <select id="selectCategoryLikeName"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category
+    where owner_id = #{ownerid} and name like CONCAT(CONCAT('%',#{name},'%'))
+  </select>
+  <select id="selectCategoryByOwnerId"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from friend_category
+    where owner_id = #{ownerid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from friend_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nt.entity.Category">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into friend_category (name, owner_id)
+    values (#{name,jdbcType=VARCHAR}, #{ownerId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nt.entity.Category">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into friend_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nt.entity.Category">
+    update friend_category
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nt.entity.Category">
+    update friend_category
+    set name = #{name,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

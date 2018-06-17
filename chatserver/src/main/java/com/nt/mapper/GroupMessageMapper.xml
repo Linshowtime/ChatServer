@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nt.mapper.GroupMessageMapper">
+  <resultMap id="BaseResultMap" type="com.nt.entity.GroupMessage">
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="sender_id" jdbcType="INTEGER" property="senderId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <insert id="insert" parameterType="com.nt.entity.GroupMessage">
+    insert into group_message (group_id, sender_id, time, 
+      content, type)
+    values (#{groupId,jdbcType=INTEGER}, #{senderId,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nt.entity.GroupMessage">
+    insert into group_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+   <select id="selectMessages" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+  *
+    from group_message
+    where sender_id = #{senderId} and group_id=#{groupId}
+   </select>
+   <select id="selectMessagesByGroupId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+  *
+    from group_message
+    where group_id=#{groupId} 
+   </select>
+    <select id="selectMessagesLikeContent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+  *
+    from group_message
+    where group_id=#{groupId} and content like CONCAT(CONCAT('%',#{content},'%'))
+   </select>
+</mapper>
