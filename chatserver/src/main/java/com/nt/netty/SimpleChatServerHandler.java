@@ -10,8 +10,6 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 /**
  * 服务端 channel
  * 
- * @author waylau.com
- * @date 2015-2-16
  */
 public class SimpleChatServerHandler extends SimpleChannelInboundHandler<String> { // (1)
 	
@@ -24,8 +22,6 @@ public class SimpleChatServerHandler extends SimpleChannelInboundHandler<String>
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {  // (2)
         Channel incoming = ctx.channel();
-        
-        // Broadcast a message to multiple Channels
         channels.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
         
         channels.add(ctx.channel());
