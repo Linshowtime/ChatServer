@@ -16,8 +16,18 @@ public class UserDTO {
 	private String phone;// 電話號碼
 
 	private String gender;// 性別
-	  
-    private String headUrl;//頭像URL
+	
+	private String aliaName;
+	
+    public String getAliaName() {
+		return aliaName;
+	}
+
+	public void setAliaName(String aliaName) {
+		this.aliaName = aliaName;
+	}
+
+	private String headUrl;//頭像URL
 	public Integer getId() {
 		return id;
 	}

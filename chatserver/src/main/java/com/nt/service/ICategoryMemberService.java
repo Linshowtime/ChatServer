@@ -6,6 +6,8 @@ import com.nt.entity.CategoryMember;
 
 public interface ICategoryMemberService {
 	int saveMember(CategoryMember member);
+	
+	int modifyMember(CategoryMember member);
 
 	CategoryMember findMember(int ownerid, int memberid);
 

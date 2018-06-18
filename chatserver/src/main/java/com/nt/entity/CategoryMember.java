@@ -8,8 +8,17 @@ public class CategoryMember {
     private Integer ownerId;
 
     private Integer memberId;
+ 
+    private String aliaName;
+    public String getAliaName() {
+		return aliaName;
+	}
 
-    public Integer getId() {
+	public void setAliaName(String aliaName) {
+		this.aliaName = aliaName;
+	}
+
+	public Integer getId() {
         return id;
     }
 

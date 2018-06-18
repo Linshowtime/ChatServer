@@ -36,5 +36,10 @@ private CategoryMemberMapper mapper;
 		
 		return mapper.selectCategoryMembers(categoryid, ownerid);
 	}
+	@Override
+	public int modifyMember(CategoryMember member) {
+		
+		return mapper.updateByPrimaryKeySelective(member);
+	}
 
 }

@@ -65,8 +65,8 @@ public class AuthController {
 	private IChatMessageService chatMessageService;
 	@Autowired
 	private IGroupMessageService groupMessageService;
-	@Resource
-	WebSocketService webSocketService;
+//	@Resource
+//	WebSocketService webSocketService;
 
 	/**
 	 * 修改个人信息
@@ -178,8 +178,8 @@ public class AuthController {
 					User u1 = userService.findById(Integer.valueOf(request.getAttribute("userid").toString()));
 					List<String> users = Lists.newArrayList();
 					users.add(friend.getUsername());
-					webSocketService.send2Users(users,
-							new WiselyMessage(message, u1.getUsername(), friend.getUsername(), 2));
+//					webSocketService.send2Users(users,
+//							new WiselyMessage(message, u1.getUsername(), friend.getUsername(), 2));
 					return ResultUtil.success(null);
 				}
 			} catch (Exception e) {
@@ -276,7 +276,31 @@ public class AuthController {
 			return ResultUtil.error(1, "添加新好友异常");
 		}
 	}
-
+	/**
+	 * 修改好友昵称
+	 * @param request
+	 * @param aliaName
+	 * @param friendName
+	 * @return
+	 */
+	@RequestMapping("/modifyAliaName")
+	public Result modifyAliaName(ServletRequest request,@RequestParam(value = "aliaName") String aliaName,@RequestParam(value = "friendName") String friendName) {
+		try {
+			if(friendName==null||aliaName==null){
+				return ResultUtil.error(1, "friendName,aliaName不能为空");
+			}
+			CategoryMember  categoryMember=categoryMemberService.findMember(Integer.valueOf(request.getAttribute("userid").toString()), userService.findByName(friendName).getId());
+			if (categoryMember == null) {
+				ResultUtil.error(1, "该好友不存在");
+			}
+			categoryMember.setAliaName(aliaName);
+			categoryMemberService.modifyMember(categoryMember);
+			return ResultUtil.success(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtil.error(1, "修改好友昵称异常");
+		}
+	}
 	/**
 	 * 刪除好友
 	 * 
@@ -528,6 +552,7 @@ public class AuthController {
 					userdto.setPhone(user.getPhone());
 					userdto.setRegion(user.getRegion());
 					userdto.setStatus(user.getStatus());
+					userdto.setAliaName(member.getAliaName());
 					userdtos.add(userdto);
 				}
 				map.put("categoryMemberInfos", userdtos);
