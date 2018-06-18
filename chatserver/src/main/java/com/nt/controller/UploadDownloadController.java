@@ -77,7 +77,7 @@ public class UploadDownloadController {
      * @return
      */
     @RequestMapping(value = "/downloadImage",method = RequestMethod.GET)  
-    public Result downloadImage(HttpServletRequest request, HttpServletResponse response) {    
+    public void downloadImage(HttpServletRequest request, HttpServletResponse response) {    
     	User user=userService.findById(Integer.valueOf(request.getAttribute("userid").toString()));
     	String fileUrl=user.getHeadUrl();
     	if (fileUrl != null) {  
@@ -116,7 +116,6 @@ public class UploadDownloadController {
                 }  
             }  
         }  
-        return ResultUtil.error(1, "图片获取失败");  
     }  
   
   
