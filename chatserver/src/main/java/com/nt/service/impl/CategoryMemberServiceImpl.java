@@ -15,8 +15,8 @@ private CategoryMemberMapper mapper;
 	@Override
 	public int saveMember(CategoryMember member) {
 		
-		return mapper.insert(member);
-	}
+		return mapper.insertSelective(member);
+		}
 	@Override
 	public CategoryMember findMember(int ownerid, int memberid) {
 		

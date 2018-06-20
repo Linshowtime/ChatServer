@@ -10,6 +10,8 @@ public interface IGroupUserService {
 	GroupUser findGroupUser(Integer groupId, Integer userId);
 
 	int deleteGroupUser(Integer groupId);
+	
+	int deleteUser(Integer groupId,Integer userId);
 
 	List<GroupUser> findGroupUserByGroupId(Integer groupId);
 

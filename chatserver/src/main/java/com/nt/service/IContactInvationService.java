@@ -13,4 +13,6 @@ public interface IContactInvationService {
 	ContactInvation findById(int recordId);
 	
 	int updateInvation(ContactInvation invation);
+
+	List<ContactInvation> findContactsToOthers(int userId);
 }

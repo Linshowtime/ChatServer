@@ -16,8 +16,6 @@ import io.netty.handler.codec.string.StringEncoder;
 /**
  * 服务端 ChannelInitializer
  * 
- * @author waylau.com
- * @date 2015-2-26
  */
 public class SimpleChatServerInitializer extends
 		ChannelInitializer<SocketChannel> {
@@ -29,7 +27,7 @@ public class SimpleChatServerInitializer extends
          // 添加ProtobufDecoder解码器，它的参数是com.google.protobuf.MessageLite
          // 实际上就是要告诉ProtobufDecoder需要解码的目标类是什么，否则仅仅从字节数组中是
          // 无法判断出要解码的目标类型信息的（服务端需要解析的是客户端请求，所以是Req）
-		 pipeline.addLast(new ProtobufDecoder(SubscribeReqProto.SubscribeReq.getDefaultInstance()));
+		 //pipeline.addLast(new ProtobufDecoder(SubscribeReqProto.SubscribeReq.getDefaultInstance()));
 		  ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
           // 添加ProtobufEncoder编码器，这样就不需要对SubscribeResp进行手工编码
           ch.pipeline().addLast(new ProtobufEncoder());

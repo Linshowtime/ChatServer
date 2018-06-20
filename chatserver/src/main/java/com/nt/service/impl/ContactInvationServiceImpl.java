@@ -32,5 +32,10 @@ public class ContactInvationServiceImpl implements IContactInvationService{
 		
 		return mapper.updateByPrimaryKey(invation);
 	}
-
+	
+	@Override
+	public List<ContactInvation> findContactsToOthers(int userId) {
+		
+		return mapper.findInvationRecordsToOthers(userId);
+	}
 }

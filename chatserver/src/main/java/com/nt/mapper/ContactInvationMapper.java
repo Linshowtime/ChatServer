@@ -19,5 +19,8 @@ public interface ContactInvationMapper {
 
     int updateByPrimaryKey(ContactInvation record);
     
-    List<ContactInvation> findInvationRecords(@Param("contactid") Integer id);
+    List<ContactInvation> findInvationRecords(@Param("contactid") Integer contactid);
+    
+    
+    List<ContactInvation> findInvationRecordsToOthers(@Param("userid") Integer userid);
 }

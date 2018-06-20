@@ -23,7 +23,13 @@
     select 
     max(id) as id,user_id, contact_user_id,tag, category_id,message
     from contact_invation
-    group by  user_id, contact_user_id,tag, category_id,message having  contact_user_id = #{contactid} and tag=0
+    group by  user_id, contact_user_id,tag, category_id,message having  contact_user_id = #{contactid}
+  </select>
+  <select id="findInvationRecordsToOthers"  resultMap="BaseResultMap">
+    select 
+    max(id) as id,user_id, contact_user_id,tag, category_id,message
+    from contact_invation
+    group by  user_id, contact_user_id,tag, category_id,message having user_id = #{userid}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from contact_invation

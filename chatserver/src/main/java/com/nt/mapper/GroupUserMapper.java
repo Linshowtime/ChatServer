@@ -14,7 +14,9 @@ public interface GroupUserMapper {
     GroupUser selectGroupUser(@Param("groupId") Integer groupId,@Param("userId") Integer userId);
     
     int deleteByGroupId(Integer groupId);
-     
+    
+    int deleteUser(@Param("groupId") Integer groupId,@Param("userId")Integer userId);
+    
     List<GroupUser> selectGroupUserByGroupId(@Param("groupId") Integer groupId);
     
     List<GroupUser> selectGroupUserByUserId(@Param("userId")Integer userId);

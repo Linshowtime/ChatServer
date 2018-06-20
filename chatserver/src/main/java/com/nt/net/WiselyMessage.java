@@ -4,6 +4,7 @@ public class WiselyMessage {
 private String Content;//信息内容
 private String senderName;
 private String receiverName;//为群聊信息时，为群名称
+
 private int type;//0表示公告，1表示群聊信息，2表示添加好友信息,3表示一对一信息
 public WiselyMessage(String content, String senderName, String receiverName, int type) {
 	super();

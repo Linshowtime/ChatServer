@@ -63,7 +63,7 @@
     from group_message
     where group_id=#{groupId} 
    </select>
-    <select id="selectMessagesLikeContent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectMessagesLikeContent"  resultMap="BaseResultMap">
     select 
   *
     from group_message

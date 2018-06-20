@@ -14,7 +14,7 @@ public class CategoryServiceImpl implements ICategoryService {
  private CategoryMapper mapper;
 	@Override
 	public int saveCategory(Category category) {
-	return mapper.insert(category);
+	return mapper.insertSelective(category);
 	}
 	@Override
 	public Category findCategory(int ownerid, String name) {
@@ -38,6 +38,12 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Override
 	public List<Category> findCategoryByOwnerId(int ownerid) {
 		return mapper.selectCategoryByOwnerId(ownerid);
+	}
+	@Override
+	public Category findCategoryById(int categoryId) {
+		// TODO Auto-generated method stub
+		return mapper.selectByPrimaryKey(categoryId);
+				
 	}
 
 

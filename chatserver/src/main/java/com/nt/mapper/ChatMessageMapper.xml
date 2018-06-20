@@ -23,7 +23,7 @@
     from chat_message
     where (sender_id = #{senderId} and receiver_id=#{receiverId}) or (sender_id = #{receiverId} and receiver_id=#{senderId})
    </select>
-   <select id="selectMessagesLikeContent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   <select id="selectMessagesLikeContent" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from chat_message

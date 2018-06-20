@@ -35,5 +35,9 @@ public class GroupUserServiceImpl implements IGroupUserService {
 	public List<GroupUser> findGroupUserByUserId(Integer userId) {
 		return mapper.selectGroupUserByUserId(userId);
 	}
+	@Override
+	public int deleteUser(Integer groupId, Integer userId) {
+		return mapper.deleteUser(groupId, userId);
+	}
 
 }
