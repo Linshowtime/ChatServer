@@ -57,6 +57,7 @@ public class PrivateMessageController {
 			m.setReceiverId(userService.findByName(message.getUserName()).getId());
 			m.setSenderId(Integer.valueOf(request.getAttribute("userid").toString()));
 			m.setContent(message.getContent());
+			m.setIsRead(0);
 			chatMessageService.saveMessage(m);
 			return ResultUtil.success(null);
 		} catch (Exception e) {
@@ -94,6 +95,50 @@ public class PrivateMessageController {
 								userService.findById(message.getReceiverId()).getUsername(),
 								sdf.format(message.getTime()), message.getContent());
 						dtos.add(dto);
+					}
+				}
+				map.put("chatMessages", dtos);
+				chatMessages.add(map);
+			}
+
+			return ResultUtil.success(chatMessages);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtil.error(1, "显示与某个人所有历史信息有异常");
+		}
+	}
+	/**
+	 * 显示与所有未读聊天内容
+	 * 
+	 * @param request
+	 * @param userName
+	 * @return
+	 */
+	@RequestMapping("/searchUnreadChatMessages")
+	public Result searchUnreadChatMessages(ServletRequest request) {
+		try {
+			List<Category> categories = categoryService
+					.findCategoryByOwnerId(Integer.valueOf(request.getAttribute("userid").toString()));
+			List<Map<String, Object>> chatMessages = new ArrayList<Map<String, Object>>();
+			for (Category catetory : categories) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("catetoryName", catetory.getName());
+				List<CategoryMember> members = categoryMemberService.searchCategoryMembers(catetory.getId(),
+						Integer.valueOf(request.getAttribute("userid").toString()));
+				List<ChatMessageDTO> dtos = new ArrayList<ChatMessageDTO>();
+				for (CategoryMember member : members) {
+					List<ChatMessage> messages = chatMessageService.findUnreadMessages(
+							Integer.valueOf(request.getAttribute("userid").toString()), member.getMemberId());
+					DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					for (ChatMessage message : messages) {
+						ChatMessageDTO dto = new ChatMessageDTO(
+								userService.findById(message.getSenderId()).getUsername(),
+								userService.findById(message.getReceiverId()).getUsername(),
+								sdf.format(message.getTime()), message.getContent());
+						dtos.add(dto);
+						message.setIsRead(1);
+						chatMessageService.modifyMessage(message);
 					}
 				}
 				map.put("chatMessages", dtos);

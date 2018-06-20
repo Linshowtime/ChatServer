@@ -9,5 +9,6 @@ public interface IGroupMessageService {
 
 	List<GroupMessage> findMessages(Integer groupId, Integer senderId);
 	List<GroupMessage> findMessagesByGroupId(Integer groupId);
+	List<GroupMessage> findUnreadMessages(Integer groupId,Integer maxId);
 	List<GroupMessage> findMessagesLikeContent(Integer groupId,String content);
 }

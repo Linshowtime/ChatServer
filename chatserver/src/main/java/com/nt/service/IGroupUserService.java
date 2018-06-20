@@ -17,4 +17,5 @@ public interface IGroupUserService {
 
 	List<GroupUser> findGroupUserByUserId(Integer userId);
 	
+	int modifyGroupUser(GroupUser user);
 }

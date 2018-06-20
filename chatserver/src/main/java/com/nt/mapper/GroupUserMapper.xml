@@ -4,10 +4,11 @@
   <resultMap id="BaseResultMap" type="com.nt.entity.GroupUser">
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+     <result column="max_message_id" jdbcType="INTEGER" property="maxMessageId" />
   </resultMap>
   <insert id="insert" parameterType="com.nt.entity.GroupUser">
-    insert into group_user (group_id, user_id)
-    values (#{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+    insert into group_user (group_id, user_id,max_message_id)
+    values (#{groupId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{maxMessageId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.nt.entity.GroupUser">
     insert into group_user
@@ -18,6 +19,9 @@
       <if test="userId != null">
         user_id,
       </if>
+       <if test="maxMessageId != null">
+        max_message_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="groupId != null">
@@ -25,6 +29,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="maxMessageId != null">
+        #{maxMessageId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -54,4 +61,19 @@
     delete from group_user
     where group_id = #{groupId} and user_id=#{userId}
   </delete>
+  <update id="updateSelective" parameterType="com.nt.entity.GroupUser">
+    update group_user
+    <set>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="maxMessageId != null">
+        max_message_id = #{maxMessageId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=INTEGER} and  user_id = #{userId,jdbcType=INTEGER}
+  </update>
 </mapper>

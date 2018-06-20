@@ -13,6 +13,7 @@ public class ChatMessage {
 
     private String content;
 
+    private Integer isRead;
     public Integer getId() {
         return id;
     }
@@ -52,4 +53,13 @@ public class ChatMessage {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public Integer getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(Integer isRead) {
+		this.isRead = isRead;
+	}
+    
 }

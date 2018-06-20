@@ -26,6 +26,7 @@
     from chat_group
     where name like  CONCAT(CONCAT('%',#{name},'%'))
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from chat_group
     where id = #{id,jdbcType=INTEGER}
