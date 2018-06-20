@@ -17,6 +17,9 @@ public interface ChatMessageMapper {
 
 	List<ChatMessage> selectMessages(@Param("senderId") Integer senderId, @Param("receiverId") Integer receiverId);
 
+	List<ChatMessage> selectUnreadMessages(@Param("senderId") Integer senderId,
+			@Param("receiverId") Integer receiverId);
+
 	List<ChatMessage> selectMessagesLikeContent(@Param("senderId") Integer senderId,
 			@Param("receiverId") Integer receiverId, @Param("content") String content);
 

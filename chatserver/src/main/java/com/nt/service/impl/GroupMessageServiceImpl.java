@@ -30,4 +30,9 @@ public class GroupMessageServiceImpl implements IGroupMessageService {
 	public List<GroupMessage> findMessagesLikeContent(Integer groupId, String content) {
 		return mapper.selectMessagesLikeContent(groupId, content);
 	}
+	@Override
+	public List<GroupMessage> findUnreadMessages(Integer groupId, Integer maxId) {
+		
+		return null;
+	}
 }

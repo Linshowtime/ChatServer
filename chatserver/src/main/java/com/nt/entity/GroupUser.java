@@ -4,7 +4,8 @@ public class GroupUser {
     private Integer groupId;
 
     private Integer userId;
-
+    
+    private Integer maxMessageId;
     public Integer getGroupId() {
         return groupId;
     }
@@ -20,4 +21,13 @@ public class GroupUser {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+	public Integer getMaxMessageId() {
+		return maxMessageId;
+	}
+
+	public void setMaxMessageId(Integer maxMessageId) {
+		this.maxMessageId = maxMessageId;
+	}
+    
 }

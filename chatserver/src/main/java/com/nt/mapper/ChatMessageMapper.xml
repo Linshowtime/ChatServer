@@ -7,9 +7,10 @@
     <result column="receiver_id" jdbcType="INTEGER" property="receiverId" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="is_read" jdbcType="INTEGER" property="isRead" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sender_id, receiver_id, time, content
+    id, sender_id, receiver_id, time, content,is_read
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,6 +23,12 @@
     <include refid="Base_Column_List" />
     from chat_message
     where (sender_id = #{senderId} and receiver_id=#{receiverId}) or (sender_id = #{receiverId} and receiver_id=#{senderId})
+   </select>
+   <select id="selectUnreadMessages" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from chat_message
+    where (sender_id = #{senderId} and receiver_id=#{receiverId}) or (sender_id = #{receiverId} and receiver_id=#{senderId})and is_read=0
    </select>
    <select id="selectMessagesLikeContent" resultMap="BaseResultMap">
     select 
@@ -39,9 +46,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into chat_message (sender_id, receiver_id, time, 
-      content)
+      content,is_read)
     values (#{senderId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=VARCHAR})
+      #{content,jdbcType=VARCHAR}, #{isRead,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.nt.entity.ChatMessage">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -61,6 +68,9 @@
       <if test="content != null">
         content,
       </if>
+      <if test="isRead != null">
+        is_read,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="senderId != null">
@@ -74,6 +84,9 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+       <if test="isRead != null">
+        #{isRead,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -92,6 +105,9 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="isRead != null">
+       is_read = #{isRead,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,7 +116,8 @@
     set sender_id = #{senderId,jdbcType=INTEGER},
       receiver_id = #{receiverId,jdbcType=INTEGER},
       time = #{time,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=VARCHAR}
+      content = #{content,jdbcType=VARCHAR},
+      is_read=#{isRead,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

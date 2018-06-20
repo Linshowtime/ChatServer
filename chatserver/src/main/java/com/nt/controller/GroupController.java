@@ -53,6 +53,7 @@ public class GroupController {
 					GroupUser groupuser = new GroupUser();
 					groupuser.setGroupId(g.getId());
 					groupuser.setUserId(Integer.valueOf(request.getAttribute("userid").toString()));
+					groupuser.setMaxMessageId(0);
 					groupUserService.saveGroupUser(groupuser);
 					return ResultUtil.success(g);
 				} else {
@@ -94,6 +95,7 @@ public class GroupController {
 				GroupUser groupuser = new GroupUser();
 				groupuser.setGroupId(group.getId());
 				groupuser.setUserId(user.getId());
+				groupuser.setMaxMessageId(0);
 				groupUserService.saveGroupUser(groupuser);
 				return ResultUtil.success(null);
 			} catch (Exception e) {
@@ -130,6 +132,7 @@ public class GroupController {
 				GroupUser groupuser = new GroupUser();
 				groupuser.setGroupId(group.getId());
 				groupuser.setUserId(user.getId());
+				groupuser.setMaxMessageId(0);
 				groupUserService.saveGroupUser(groupuser);
 				return ResultUtil.success(null);
 			} catch (Exception e) {
@@ -280,7 +283,12 @@ public class GroupController {
 			}
 		}
 	}
-
+/**
+ * 根据群Id查询群信息
+ * @param request
+ * @param groupId
+ * @return
+ */
 	@RequestMapping("/searchGroup")
 	public Result searchGroup(ServletRequest request, Integer groupId) {
 		if (groupId == null) {
@@ -354,7 +362,6 @@ public class GroupController {
 						userdto.setRegion(user.getRegion());
 						userdto.setStatus(user.getStatus());
 						userdtos.add(userdto);
-
 					}
 					map.put("groupMemberInfos", userdtos);
 					groupInfos.add(map);

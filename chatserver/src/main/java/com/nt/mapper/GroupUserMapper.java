@@ -11,6 +11,8 @@ public interface GroupUserMapper {
 
     int insertSelective(GroupUser record);
     
+    int updateSelective(GroupUser record);
+    
     GroupUser selectGroupUser(@Param("groupId") Integer groupId,@Param("userId") Integer userId);
     
     int deleteByGroupId(Integer groupId);

@@ -26,5 +26,15 @@ public class ChatMessageServiceImpl implements IChatMessageService {
 		
 		return mapper.selectMessagesLikeContent(senderId, receiverId, content);
 	}
+	@Override
+	public List<ChatMessage> findUnreadMessages(Integer senderId, Integer receiverId) {
+		
+		return mapper.selectUnreadMessages(senderId, receiverId);
+	}
+	@Override
+	public int modifyMessage(ChatMessage message) {
+		
+		return mapper.updateByPrimaryKeySelective(message);
+	}
 
 }

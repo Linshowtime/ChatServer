@@ -95,7 +95,42 @@ public class GroupMessageController {
 			return ResultUtil.error(1, " 显示所有群历史消息有异常");
 		}
 	}
-
+	/**
+	 * 显示未读群消息
+	 * 
+	 * @param request
+	 * @param groupName
+	 * @return
+	 */
+	@RequestMapping("/searchUnreadGroupMessages")
+	public Result searchUnreadGroupMessages(ServletRequest request) {
+		try {
+			List<GroupUser> groupUsers = groupUserService
+					.findGroupUserByUserId(Integer.valueOf(request.getAttribute("userid").toString()));
+			List<Map<String, Object>> groupMessages = new ArrayList<Map<String, Object>>();
+			for (GroupUser g : groupUsers) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("groupId", g.getGroupId());
+				List<GroupMessage> messages = groupMessageService.findUnreadMessages(g.getGroupId(),g.getMaxMessageId());
+				List<GroupMessageDTO> dtos = new ArrayList<GroupMessageDTO>();
+				DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				for (GroupMessage message : messages) {
+					GroupMessageDTO dto = new GroupMessageDTO(g.getGroupId(),
+							userService.findById(message.getSenderId()).getUsername(), sdf.format(message.getTime()),
+							message.getContent(), message.getType());
+					        g.setMaxMessageId(message.getId());
+					dtos.add(dto);
+				}
+				groupUserService.modifyGroupUser(g);
+				map.put("messages", dtos);
+				groupMessages.add(map);
+			}
+			return ResultUtil.success(groupMessages);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResultUtil.error(1, " 显示所有群历史消息有异常");
+		}
+	}
 	/**
 	 * 输入查询条件内容模糊查询某个群消息
 	 * 
