@@ -68,7 +68,7 @@ public class AccountController {
 		try {
 			User u = userService.findById(Integer.valueOf(request.getAttribute("userid").toString()));
 			u.setPassword(DESUtils.decryptBasedDes(u.getPassword()));
-			AccountDTO account=new AccountDTO(u.getUsername(),u.getNickname(),u.getEmail(),u.getStatus(),u.getRegion(),u.getPhone(),u.getGender()==null?"未知":u.getGender()==0?"男":"女",u.getPassword());
+			AccountDTO account=new AccountDTO(u.getUsername(),u.getNickname(),u.getEmail(),u.getStatus(),u.getRegion(),u.getPhone(),u.getGender() == null ? -1 : u.getGender(),u.getPassword());
 			return ResultUtil.success(account);
 		} catch (Exception e) {
 			e.printStackTrace();
