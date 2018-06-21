@@ -87,11 +87,13 @@ public class AccountController {
 		try {
 			user.setId(Integer.valueOf(request.getAttribute("userid").toString()));
 			if(user.getUsername()!=null){
-				return ResultUtil.error(1, "username不能修改");
+              user.setUsername(null);
 			}
-			user.setPassword(DESUtils.encryptBasedDes(user.getPassword()));
+			if(user.getPassword() != null) {
+              user.setPassword(DESUtils.encryptBasedDes(user.getPassword()));
+            }
 			userService.modifyUserInfo(user);
-			return ResultUtil.success(null);
+			return ResultUtil.success(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultUtil.error(1, "修改账号信息异常");
