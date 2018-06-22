@@ -33,6 +33,6 @@ public class GroupMessageServiceImpl implements IGroupMessageService {
 	@Override
 	public List<GroupMessage> findUnreadMessages(Integer groupId, Integer maxId) {
 		
-		return null;
+		return mapper.selectUnreadMessages(groupId, maxId);
 	}
 }
