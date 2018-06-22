@@ -19,16 +19,16 @@ public class GroupMessageDTO {
 		this.type=type;
 	}
 
-	public Integer getgroupId() {
+	public Integer getGroupId() {
 		return groupId;
 	}
-	public void setgroupId(Integer groupId) {
+	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
 	}
-	public String getsenderName() {
+	public String getSenderName() {
 		return senderName;
 	}
-	public void setsenderName(String senderName) {
+	public void setSenderName(String senderName) {
 		this.senderName = senderName;
 	}
 	public String getTime() {

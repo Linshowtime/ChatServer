@@ -16,19 +16,19 @@ public class ChatMessageDTO {
 		this.content = content;
 	}
 
-	public String getsenderName() {
+	public String getSenderName() {
 		return senderName;
 	}
 
-	public void setsenderName(String senderName) {
+	public void setSenderName(String senderName) {
 		this.senderName = senderName;
 	}
 
-	public String getreceiverName() {
+	public String getReceiverName() {
 		return receiverName;
 	}
 
-	public void setreceiverName(String receiverName) {
+	public void setReceiverName(String receiverName) {
 		this.receiverName = receiverName;
 	}
 
