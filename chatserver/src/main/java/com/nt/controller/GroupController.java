@@ -299,7 +299,6 @@ public class GroupController {
 				if (group == null) {
 					return ResultUtil.error(1, "不存在該群");
 				} else {
-					List<Map<String, Object>> groupInfos = new ArrayList<Map<String, Object>>();
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("groupName", group.getName());
 					GroupUser groupUser = groupUserService.findGroupUser(group.getId(),
@@ -321,8 +320,7 @@ public class GroupController {
 						}
 					}
 					map.put("groupMemberInfos", userdtos);
-					groupInfos.add(map);
-					return ResultUtil.success(groupInfos);
+					return ResultUtil.success(map);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
