@@ -31,7 +31,7 @@ public class UserController {
 			userdto.setId(u.getId());
 			userdto.setPhone(u.getPhone());
 			userdto.setRegion(u.getRegion());
-			userdto.setGender(u.getGender()==null?"未知":u.getGender() == 0 ? "男" : "女");
+			userdto.setGender(u.getGender()==null ? -1 : u.getGender());
 			userdto.setStatus(u.getStatus());
 			userdto.setUsername(u.getUsername());
 			userdto.setNickname(u.getNickname());

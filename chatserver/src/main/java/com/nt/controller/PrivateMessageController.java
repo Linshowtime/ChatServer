@@ -1,20 +1,5 @@
 package com.nt.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.nt.dto.ChatMessageDTO;
 import com.nt.dto.ReqPrivateMessage;
 import com.nt.entity.Category;
@@ -26,6 +11,19 @@ import com.nt.service.ICategoryService;
 import com.nt.service.IChatMessageService;
 import com.nt.service.IUserService;
 import com.nt.util.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.ServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,7 +40,7 @@ public class PrivateMessageController {
 
 	/**
 	 * 私聊
-	 * 
+	 *
 	 * @param request
 	 * @param message
 	 * @return
@@ -68,41 +66,39 @@ public class PrivateMessageController {
 
 	/**
 	 * 显示与所有好友聊天内容
-	 * 
+	 *
 	 * @param request
 	 * @param userName
 	 * @return
 	 */
 	@RequestMapping("/searchChatMessages")
 	public Result searchChatMessages(ServletRequest request) {
+		Map<String, List<ChatMessageDTO>> result = new HashMap<>();
 		try {
 			List<Category> categories = categoryService
-					.findCategoryByOwnerId(Integer.valueOf(request.getAttribute("userid").toString()));
-			List<Map<String, Object>> chatMessages = new ArrayList<Map<String, Object>>();
+							.findCategoryByOwnerId(Integer.valueOf(request.getAttribute("userid").toString()));
 			for (Category catetory : categories) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("catetoryName", catetory.getName());
 				List<CategoryMember> members = categoryMemberService.searchCategoryMembers(catetory.getId(),
-						Integer.valueOf(request.getAttribute("userid").toString()));
-				List<ChatMessageDTO> dtos = new ArrayList<ChatMessageDTO>();
+								Integer.valueOf(request.getAttribute("userid").toString()));
 				for (CategoryMember member : members) {
+					int memberId = member.getMemberId();
+					String memberName = userService.findById(memberId).getUsername();
+					List<ChatMessageDTO> dtos = new ArrayList<ChatMessageDTO>();
 					List<ChatMessage> messages = chatMessageService.findMessages(
-							Integer.valueOf(request.getAttribute("userid").toString()), member.getMemberId());
+									Integer.valueOf(request.getAttribute("userid").toString()), member.getMemberId());
 					DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					for (ChatMessage message : messages) {
 						ChatMessageDTO dto = new ChatMessageDTO(
-								userService.findById(message.getSenderId()).getUsername(),
-								userService.findById(message.getReceiverId()).getUsername(),
-								sdf.format(message.getTime()), message.getContent());
+										userService.findById(message.getSenderId()).getUsername(),
+										userService.findById(message.getReceiverId()).getUsername(),
+										sdf.format(message.getTime()), message.getContent());
 						dtos.add(dto);
 					}
+
+					result.put(memberName, dtos);
 				}
-				map.put("chatMessages", dtos);
-				chatMessages.add(map);
 			}
-
-			return ResultUtil.success(chatMessages);
-
+			return ResultUtil.success(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultUtil.error(1, "显示与某个人所有历史信息有异常");
@@ -110,43 +106,40 @@ public class PrivateMessageController {
 	}
 	/**
 	 * 显示与所有未读聊天内容
-	 * 
+	 *
 	 * @param request
 	 * @param userName
 	 * @return
 	 */
 	@RequestMapping("/searchUnreadChatMessages")
 	public Result searchUnreadChatMessages(ServletRequest request) {
+		Map<String, List<ChatMessageDTO>> result = new HashMap<>();
 		try {
 			List<Category> categories = categoryService
-					.findCategoryByOwnerId(Integer.valueOf(request.getAttribute("userid").toString()));
-			List<Map<String, Object>> chatMessages = new ArrayList<Map<String, Object>>();
+							.findCategoryByOwnerId(Integer.valueOf(request.getAttribute("userid").toString()));
 			for (Category catetory : categories) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("catetoryName", catetory.getName());
 				List<CategoryMember> members = categoryMemberService.searchCategoryMembers(catetory.getId(),
-						Integer.valueOf(request.getAttribute("userid").toString()));
-				List<ChatMessageDTO> dtos = new ArrayList<ChatMessageDTO>();
+								Integer.valueOf(request.getAttribute("userid").toString()));
 				for (CategoryMember member : members) {
+					int memberId = member.getMemberId();
+					String memberName = userService.findById(memberId).getUsername();
+					List<ChatMessageDTO> dtos = new ArrayList<ChatMessageDTO>();
 					List<ChatMessage> messages = chatMessageService.findUnreadMessages(
-							Integer.valueOf(request.getAttribute("userid").toString()), member.getMemberId());
+									Integer.valueOf(request.getAttribute("userid").toString()), member.getMemberId());
 					DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					for (ChatMessage message : messages) {
 						ChatMessageDTO dto = new ChatMessageDTO(
-								userService.findById(message.getSenderId()).getUsername(),
-								userService.findById(message.getReceiverId()).getUsername(),
-								sdf.format(message.getTime()), message.getContent());
+										userService.findById(message.getSenderId()).getUsername(),
+										userService.findById(message.getReceiverId()).getUsername(),
+										sdf.format(message.getTime()), message.getContent());
 						dtos.add(dto);
 						message.setIsRead(1);
 						chatMessageService.modifyMessage(message);
 					}
+					result.put(memberName, dtos);
 				}
-				map.put("chatMessages", dtos);
-				chatMessages.add(map);
 			}
-
-			return ResultUtil.success(chatMessages);
-
+			return ResultUtil.success(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResultUtil.error(1, "显示与某个人所有历史信息有异常");
@@ -155,7 +148,7 @@ public class PrivateMessageController {
 
 	/**
 	 * 输入查询条件内容模糊查询与某个人聊天记录
-	 * 
+	 *
 	 * @param request
 	 * @param userName
 	 * @return
@@ -164,14 +157,14 @@ public class PrivateMessageController {
 	public Result searchChatMessagesLikeContent(ServletRequest request, @RequestBody ReqPrivateMessage m) {
 		try {
 			List<ChatMessage> messages = chatMessageService.findMessagesLikeContent(
-					Integer.valueOf(request.getAttribute("userid").toString()),
-					userService.findByName(m.getUserName()).getId(), m.getContent());
+							Integer.valueOf(request.getAttribute("userid").toString()),
+							userService.findByName(m.getUserName()).getId(), m.getContent());
 			List<ChatMessageDTO> dtos = new ArrayList<ChatMessageDTO>();
 			DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			for (ChatMessage message : messages) {
 				ChatMessageDTO dto = new ChatMessageDTO(
-						userService.findById(Integer.valueOf(request.getAttribute("userid").toString())).getUsername(),
-						m.getUserName(), sdf.format(message.getTime()), message.getContent());
+								userService.findById(Integer.valueOf(request.getAttribute("userid").toString())).getUsername(),
+								m.getUserName(), sdf.format(message.getTime()), message.getContent());
 				dtos.add(dto);
 			}
 			return ResultUtil.success(dtos);

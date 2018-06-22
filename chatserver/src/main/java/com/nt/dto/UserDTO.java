@@ -15,7 +15,7 @@ public class UserDTO {
 
 	private String phone;// 電話號碼
 
-	private String gender;// 性別
+	private Integer gender;// 性別
 	
 	private String aliaName;
 	
@@ -83,11 +83,11 @@ public class UserDTO {
 		this.status = status;
 	}
 
-	public String getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 

@@ -264,7 +264,7 @@ public class GroupController {
 								UserDTO userdto = new UserDTO();
 								userdto.setUsername(user.getUsername());
 								userdto.setEmail(user.getEmail());
-								userdto.setGender(user.getGender() == 0 ? "男" : "女");
+								userdto.setGender(user.getGender() == null ? -1 : user.getGender());
 								userdto.setHeadUrl(user.getHeadUrl());
 								userdto.setPhone(user.getPhone());
 								userdto.setRegion(user.getRegion());
@@ -299,7 +299,6 @@ public class GroupController {
 				if (group == null) {
 					return ResultUtil.error(1, "不存在該群");
 				} else {
-					List<Map<String, Object>> groupInfos = new ArrayList<Map<String, Object>>();
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("groupName", group.getName());
 					GroupUser groupUser = groupUserService.findGroupUser(group.getId(),
@@ -312,7 +311,7 @@ public class GroupController {
 							UserDTO userdto = new UserDTO();
 							userdto.setUsername(user.getUsername());
 							userdto.setEmail(user.getEmail());
-							userdto.setGender(user.getGender() == 0 ? "男" : "女");
+							userdto.setGender(user.getGender() == null ? -1 : user.getGender());
 							userdto.setHeadUrl(user.getHeadUrl());
 							userdto.setPhone(user.getPhone());
 							userdto.setRegion(user.getRegion());
@@ -321,8 +320,7 @@ public class GroupController {
 						}
 					}
 					map.put("groupMemberInfos", userdtos);
-					groupInfos.add(map);
-					return ResultUtil.success(groupInfos);
+					return ResultUtil.success(map);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -356,7 +354,7 @@ public class GroupController {
 						UserDTO userdto = new UserDTO();
 						userdto.setUsername(user.getUsername());
 						userdto.setEmail(user.getEmail());
-						userdto.setGender(user.getGender() == 0 ? "男" : "女");
+						userdto.setGender(user.getGender() == null ? -1 : user.getGender());
 						userdto.setHeadUrl(user.getHeadUrl());
 						userdto.setPhone(user.getPhone());
 						userdto.setRegion(user.getRegion());

@@ -158,7 +158,7 @@ public class CategoryController {
 						userdto.setPhone(user.getPhone());
 						userdto.setRegion(user.getRegion());
 						if (user.getGender() != null) {
-							userdto.setGender(user.getGender() == 0 ? "男" : "女");
+							userdto.setGender(user.getGender() == null ? -1 : user.getGender());
 						}
 						userdto.setStatus(user.getStatus());
 						userdto.setUsername(user.getUsername());
@@ -202,7 +202,7 @@ public class CategoryController {
 					userdto.setUsername(user.getUsername());
 					userdto.setEmail(user.getEmail());
 					if (user.getGender() != null) {
-						userdto.setGender(user.getGender() == 0 ? "男" : "女");
+						userdto.setGender(user.getGender() == null ? -1 : user.getGender());
 					}
 					userdto.setHeadUrl(user.getHeadUrl());
 					userdto.setPhone(user.getPhone());

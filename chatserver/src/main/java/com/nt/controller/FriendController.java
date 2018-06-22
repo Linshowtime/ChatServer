@@ -314,9 +314,9 @@ public class FriendController {
 							userdto.setAliaName(categoryMemberService.findMember(Integer.valueOf(request.getAttribute("userid").toString()),
 								user.getId()).getAliaName());
 							if (user.getGender() != null) {
-								userdto.setGender(user.getGender() == 0 ? "男" : "女");
+								userdto.setGender(user.getGender());
 							} else {
-								userdto.setGender("");
+								userdto.setGender(-1);
 							}
 							userdto.setStatus(user.getStatus());
 							userdto.setUsername(user.getUsername());

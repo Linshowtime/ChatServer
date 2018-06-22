@@ -13,12 +13,12 @@ public class AccountDTO {
 
 	private String phone;// 電話號碼
 
-	private String gender;// 性別
+	private Integer gender;// 性別
 	
 	private String password;
 
 	public AccountDTO(String username, String nickname, String email, String status, String region, String phone,
-			String gender, String password) {
+			int gender, String password) {
 		super();
 		this.username = username;
 		this.nickname = nickname;
@@ -78,11 +78,11 @@ public class AccountDTO {
 		this.phone = phone;
 	}
 
-	public String getGender() {
+	public Integer getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
 
