@@ -164,6 +164,7 @@ public class CategoryController {
 						userdto.setUsername(user.getUsername());
 						userdto.setHeadUrl(user.getHeadUrl());
 						userdto.setAliaName(member.getAliaName());
+						userdto.setNickname(user.getNickname());
 						userdtos.add(userdto);
 					}
 					map.put("categoryMemberInfos", userdtos);

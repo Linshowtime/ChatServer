@@ -133,7 +133,9 @@ public class PrivateMessageController {
 										userService.findById(message.getReceiverId()).getUsername(),
 										sdf.format(message.getTime()), message.getContent());
 						dtos.add(dto);
-						message.setIsRead(1);
+						if(!message.getSenderId().equals(Integer.valueOf(request.getAttribute("userid").toString()))){
+							message.setIsRead(1);
+						}
 						chatMessageService.modifyMessage(message);
 					}
 					result.put(memberName, dtos);
