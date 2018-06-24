@@ -28,7 +28,7 @@
     select 
     <include refid="Base_Column_List" />
     from chat_message
-    where (sender_id = #{senderId} and receiver_id=#{receiverId}) or (sender_id = #{receiverId} and receiver_id=#{senderId})and is_read=0
+    where  (sender_id = #{receiverId} and receiver_id=#{senderId})and is_read=0
    </select>
    <select id="selectMessagesLikeContent" resultMap="BaseResultMap">
     select 
