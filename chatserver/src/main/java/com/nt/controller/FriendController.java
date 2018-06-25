@@ -26,6 +26,7 @@ import com.nt.service.ICategoryService;
 import com.nt.service.IContactInvationService;
 import com.nt.service.IUserService;
 import com.nt.util.ResultUtil;
+import com.nt.util.UserDTOUtil;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -306,21 +307,11 @@ public class FriendController {
 					for (User user : list) {
 						if (categoryMemberService.findMember(Integer.valueOf(request.getAttribute("userid").toString()),
 								user.getId()) != null) {
-							UserDTO userdto = new UserDTO();
-							userdto.setEmail(user.getEmail());
-							userdto.setId(user.getId());
-							userdto.setPhone(user.getPhone());
-							userdto.setRegion(user.getRegion());
+							UserDTO userdto = UserDTOUtil.userToUserDto(user);
+							
 							userdto.setAliaName(categoryMemberService.findMember(Integer.valueOf(request.getAttribute("userid").toString()),
 								user.getId()).getAliaName());
-							if (user.getGender() != null) {
-								userdto.setGender(user.getGender());
-							} else {
-								userdto.setGender(-1);
-							}
-							userdto.setStatus(user.getStatus());
-							userdto.setUsername(user.getUsername());
-							userdto.setHeadUrl(user.getHeadUrl());
+							
 							userInfos.add(userdto);
 						}
 					}

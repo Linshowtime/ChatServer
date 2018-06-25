@@ -21,6 +21,7 @@ import com.nt.service.IGroupService;
 import com.nt.service.IGroupUserService;
 import com.nt.service.IUserService;
 import com.nt.util.ResultUtil;
+import com.nt.util.UserDTOUtil;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -261,14 +262,7 @@ public class GroupController {
 									.findGroupUserByGroupId(groupUser.getGroupId());
 							for (GroupUser guser : groupUsers) {
 								User user = userService.findById(guser.getUserId());
-								UserDTO userdto = new UserDTO();
-								userdto.setUsername(user.getUsername());
-								userdto.setEmail(user.getEmail());
-								userdto.setGender(user.getGender() == null ? -1 : user.getGender());
-								userdto.setHeadUrl(user.getHeadUrl());
-								userdto.setPhone(user.getPhone());
-								userdto.setRegion(user.getRegion());
-								userdto.setStatus(user.getStatus());
+								UserDTO userdto = UserDTOUtil.userToUserDto(user);
 								userdtos.add(userdto);
 							}
 						}
@@ -308,14 +302,7 @@ public class GroupController {
 						List<GroupUser> groupUsers = groupUserService.findGroupUserByGroupId(groupUser.getGroupId());
 						for (GroupUser guser : groupUsers) {
 							User user = userService.findById(guser.getUserId());
-							UserDTO userdto = new UserDTO();
-							userdto.setUsername(user.getUsername());
-							userdto.setEmail(user.getEmail());
-							userdto.setGender(user.getGender() == null ? -1 : user.getGender());
-							userdto.setHeadUrl(user.getHeadUrl());
-							userdto.setPhone(user.getPhone());
-							userdto.setRegion(user.getRegion());
-							userdto.setStatus(user.getStatus());
+							UserDTO userdto = UserDTOUtil.userToUserDto(user);
 							userdtos.add(userdto);
 						}
 					}
@@ -347,18 +334,12 @@ public class GroupController {
 				for (GroupUser groupUser : groupUsers) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("groupName", groupService.findGroupById(groupUser.getGroupId()).getName());
+					map.put("groupId", groupUser.getGroupId());
 					List<UserDTO> userdtos = new ArrayList<UserDTO>();
 					List<GroupUser> users = groupUserService.findGroupUserByGroupId(groupUser.getGroupId());
 					for (GroupUser u : users) {
 						User user = userService.findById(u.getUserId());
-						UserDTO userdto = new UserDTO();
-						userdto.setUsername(user.getUsername());
-						userdto.setEmail(user.getEmail());
-						userdto.setGender(user.getGender() == null ? -1 : user.getGender());
-						userdto.setHeadUrl(user.getHeadUrl());
-						userdto.setPhone(user.getPhone());
-						userdto.setRegion(user.getRegion());
-						userdto.setStatus(user.getStatus());
+						UserDTO userdto = UserDTOUtil.userToUserDto(user);
 						userdtos.add(userdto);
 					}
 					map.put("groupMemberInfos", userdtos);

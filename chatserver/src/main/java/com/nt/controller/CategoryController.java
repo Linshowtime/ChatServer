@@ -23,6 +23,7 @@ import com.nt.service.ICategoryMemberService;
 import com.nt.service.ICategoryService;
 import com.nt.service.IUserService;
 import com.nt.util.ResultUtil;
+import com.nt.util.UserDTOUtil;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -153,18 +154,8 @@ public class CategoryController {
 					List<UserDTO> userdtos = new ArrayList<UserDTO>();
 					for (CategoryMember member : members) {
 						User user = userService.findById(member.getMemberId());
-						UserDTO userdto = new UserDTO();
-						userdto.setEmail(user.getEmail());
-						userdto.setPhone(user.getPhone());
-						userdto.setRegion(user.getRegion());
-						if (user.getGender() != null) {
-							userdto.setGender(user.getGender() == null ? -1 : user.getGender());
-						}
-						userdto.setStatus(user.getStatus());
-						userdto.setUsername(user.getUsername());
-						userdto.setHeadUrl(user.getHeadUrl());
+						UserDTO userdto = UserDTOUtil.userToUserDto(user);
 						userdto.setAliaName(member.getAliaName());
-						userdto.setNickname(user.getNickname());
 						userdtos.add(userdto);
 					}
 					map.put("categoryMemberInfos", userdtos);
@@ -199,16 +190,7 @@ public class CategoryController {
 				List<UserDTO> userdtos = new ArrayList<UserDTO>();
 				for (CategoryMember member : members) {
 					User user = userService.findById(member.getMemberId());
-					UserDTO userdto = new UserDTO();
-					userdto.setUsername(user.getUsername());
-					userdto.setEmail(user.getEmail());
-					if (user.getGender() != null) {
-						userdto.setGender(user.getGender() == null ? -1 : user.getGender());
-					}
-					userdto.setHeadUrl(user.getHeadUrl());
-					userdto.setPhone(user.getPhone());
-					userdto.setRegion(user.getRegion());
-					userdto.setStatus(user.getStatus());
+					UserDTO userdto = UserDTOUtil.userToUserDto(user);
 					userdto.setAliaName(member.getAliaName());
 					userdtos.add(userdto);
 				}

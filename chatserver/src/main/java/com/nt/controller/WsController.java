@@ -25,7 +25,7 @@ import com.nt.service.IUserService;
 import com.nt.service.WebSocketService;
 import com.nt.util.Constant;
 
-@Controller
+//@Controller
 public class WsController {
     @Resource
     WebSocketService webSocketService;

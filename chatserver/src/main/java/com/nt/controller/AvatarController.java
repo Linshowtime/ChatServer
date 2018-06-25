@@ -89,7 +89,7 @@ public class AvatarController {
 		if (fileUrl != null) {
 			File file = new File(fileUrl);
 			if (file.exists()) {
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[2048];
 				FileInputStream fis = null;
 				BufferedInputStream bis = null;
 				try {
